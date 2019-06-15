@@ -61,12 +61,12 @@ tests/test_square.py <span style="color:green;">.</span><span style="color:green
 <span style="color:red;"></span><span style="color:red;font-weight:bold;">________________________________ test_negative _________________________________</span>
 
 <span style="font-weight:bold;">    def test_negative():</span>
-<span style="font-weight:bold;">&gt;       assert not is_perfect_square(-1)</span>
+<span style="font-weight:bold;">&gt;       assert not is_perfect_square(-4)</span>
 
 <span style="font-weight:bold;"></span><span style="color:red;font-weight:bold;">tests/test_square.py</span>:16: 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
 
-n = -1
+n = -4
 
 <span style="font-weight:bold;">    def is_perfect_square(n):</span>
 <span style="font-weight:bold;">        &quot;&quot;&quot;Given an integer, return whether or not it is a perfect square</span>
@@ -89,7 +89,7 @@ n = -1
 ```python
 @pytest.mark.xfail
 def test_negative():
-    assert not is_perfect_square(1)
+    assert not is_perfect_square(-4)
 ```
 
 <br/><br/>
