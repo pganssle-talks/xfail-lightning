@@ -1,0 +1,106 @@
+```python
+import math
+
+def is_perfect_square(n):
+    """Given an integer, return whether or not it is a perfect square
+
+    Specifically, this means that there is a real integer such that i*i == n
+    """
+
+    s = math.sqrt(n)
+    return s == int(s)
+```
+
+With tests:
+
+```python
+import pytest
+
+from square_mod import is_perfect_square
+
+@pytest.mark.parametrize("n", [0, 1, 2, 4, 9, 16, 25, 36] )
+def test_squares(n):
+    assert is_perfect_square(n)
+
+
+@pytest.mark.parametrize("n", [3, 5, 6, 7, 8, 27, 32])
+def test_non_squares(n):
+    assert not is_perfect_square(n)
+```
+<br/>
+
+<pre>
+<tt class="hljs">
+<span style="font-weight:bold;">============================= test session starts ==============================</span>
+platform linux -- Python 3.7.3, pytest-4.6.3, py-1.8.0, pluggy-0.12.0
+collected 15 items
+
+tests/test_square.py <span style="color:green;">.</span><span style="color:green;">.</span><span style="color:green;">.</span><span style="color:green;">.</span><span style="color:green;">.</span><span style="color:green;">.</span><span style="color:green;">.</span><span style="color:green;">.</span><span style="color:green;">.</span><span style="color:green;">.</span><span style="color:green;">.</span><span style="color:green;">.</span><span style="color:green;">.</span><span style="color:green;">.</span><span style="color:green;">.</span><span style="color:teal;">                                     [100%]</span>
+
+<span style="color:green;"></span><span style="color:green;font-weight:bold;">========================== 15 passed in 0.06 seconds ===========================</span>
+</tt></pre>
+
+--
+
+## Found a bug: Add a test
+
+```python
+def test_negative():
+    assert not is_perfect_square(1)
+```
+<br/><br/>
+<pre>
+<tt class="hljs">
+<span style="font-weight:bold;">============================= test session starts ==============================</span>
+platform linux -- Python 3.7.3, pytest-4.6.3, py-1.8.0, pluggy-0.12.0
+collected 16 items
+
+tests/test_square.py <span style="color:green;">.</span><span style="color:green;">.</span><span style="color:green;">.</span><span style="color:green;">.</span><span style="color:green;">.</span><span style="color:green;">.</span><span style="color:green;">.</span><span style="color:green;">.</span><span style="color:green;">.</span><span style="color:green;">.</span><span style="color:green;">.</span><span style="color:green;">.</span><span style="color:green;">.</span><span style="color:green;">.</span><span style="color:green;">.</span><span style="color:red;">F</span><span style="color:teal;">                                    [100%]</span>
+
+=================================== FAILURES ===================================
+<span style="color:red;"></span><span style="color:red;font-weight:bold;">________________________________ test_negative _________________________________</span>
+
+<span style="font-weight:bold;">    def test_negative():</span>
+<span style="font-weight:bold;">&gt;       assert not is_perfect_square(-1)</span>
+
+<span style="font-weight:bold;"></span><span style="color:red;font-weight:bold;">tests/test_square.py</span>:16: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+n = -1
+
+<span style="font-weight:bold;">    def is_perfect_square(n):</span>
+<span style="font-weight:bold;">        &quot;&quot;&quot;Given an integer, return whether or not it is a perfect square</span>
+<span style="font-weight:bold;">    </span>
+<span style="font-weight:bold;">        Specifically, this means that there is a real integer such that i*i == n</span>
+<span style="font-weight:bold;">        &quot;&quot;&quot;</span>
+<span style="font-weight:bold;">    </span>
+<span style="font-weight:bold;">&gt;       s = math.sqrt(n)</span>
+<span style="font-weight:bold;"></span><span style="color:red;font-weight:bold;">E       ValueError: math domain error</span>
+
+<span style="font-weight:bold;"></span><span style="color:red;font-weight:bold;">square_mod.py</span>:9: ValueError
+<span style="color:red;"></span><span style="color:red;font-weight:bold;">===================== 1 failed, 15 passed in 0.08 seconds ======================</span>
+</tt></pre>
+
+--
+
+## xfail: Tests that are *expected* to fail
+
+
+```python
+@pytest.mark.xfail
+def test_negative():
+    assert not is_perfect_square(1)
+```
+
+<br/><br/>
+Failure is expected, so the tests pass:
+
+<pre><tt class="hljs">
+<span style="font-weight:bold;">============================= test session starts ==============================</span>
+platform linux -- Python 3.7.3, pytest-4.6.3, py-1.8.0, pluggy-0.12.0
+collected 16 items
+
+tests/test_square.py <span style="color:green;">.</span><span style="color:green;">.</span><span style="color:green;">.</span><span style="color:green;">.</span><span style="color:green;">.</span><span style="color:green;">.</span><span style="color:green;">.</span><span style="color:green;">.</span><span style="color:green;">.</span><span style="color:green;">.</span><span style="color:green;">.</span><span style="color:green;">.</span><span style="color:green;">.</span><span style="color:green;">.</span><span style="color:green;">.</span><span style="color:olive;">x</span><span style="color:teal;">                                    [100%]</span>
+
+<span style="color:green;"></span><span style="color:green;font-weight:bold;">===================== 15 passed, 1 xfailed in 0.08 seconds =====================</span>
+</tt></pre>
