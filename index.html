@@ -1,0 +1,358 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>Test your Failures with xfail</title>
+
+		
+		
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<link rel="stylesheet" href="reveal.js/css/reveal.css">
+		<link rel="stylesheet" href="reveal.js/css/theme/white.css" id="theme">
+
+	
+		<link rel="stylesheet" href="css/custom.css">
+	
+
+
+		<!-- For syntax highlighting -->
+		
+		<link rel="stylesheet" href="css/xt256-pg.css">
+
+		<!-- If the query includes 'print-pdf', use the PDF print sheet -->
+		<script>
+			document.write( '<link rel="stylesheet" href="reveal.js/css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="reveal.js/lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<div class="slides">
+
+				
+				<section data-markdown data-separator="^\n---\n$" data-separator-vertical="^\n--\n$" data-notes="^Note:">
+					<script type="text/template">
+<h1 style="font-size: 3em">Test your Failures with xfail</h1>
+<br/>
+<br/>
+<br/>
+<span style="font-size: 2.5em">
+Paul Ganssle
+</span>
+<br/>
+<br/>
+<img src="images/pganssle-logos.svg" height="40px" alt="@pganssle">
+<br/>
+<br/>
+<!--
+<a rel="license" href="http://creativecommons.org/licenses/by/4.0/">
+    <img src="external-images/logos/cc-by.svg" height="45px">
+</a>
+-->
+<br/>
+
+Notes:
+
+					</script>
+				</section>
+				
+				<section data-markdown data-separator="^\n---\n$" data-separator-vertical="^\n--\n$" data-notes="^Note:">
+					<script type="text/template">
+```python
+import math
+
+def is_perfect_square(n):
+    """Given an integer, return whether or not it is a perfect square
+
+    Specifically, this means that there is a real integer such that i*i == n
+    """
+
+    s = math.sqrt(n)
+    return s == int(s)
+```
+
+With tests:
+
+```python
+import pytest
+
+from square_mod import is_perfect_square
+
+@pytest.mark.parametrize("n", [0, 1, 2, 4, 9, 16, 25, 36] )
+def test_squares(n):
+    assert is_perfect_square(n)
+
+
+@pytest.mark.parametrize("n", [3, 5, 6, 7, 8, 27, 32])
+def test_non_squares(n):
+    assert not is_perfect_square(n)
+```
+<br/>
+
+<pre>
+<tt class="hljs">
+<span style="font-weight:bold;">============================= test session starts ==============================</span>
+platform linux -- Python 3.7.3, pytest-4.6.3, py-1.8.0, pluggy-0.12.0
+collected 15 items
+
+tests/test_square.py <span style="color:green;">.</span><span style="color:green;">.</span><span style="color:green;">.</span><span style="color:green;">.</span><span style="color:green;">.</span><span style="color:green;">.</span><span style="color:green;">.</span><span style="color:green;">.</span><span style="color:green;">.</span><span style="color:green;">.</span><span style="color:green;">.</span><span style="color:green;">.</span><span style="color:green;">.</span><span style="color:green;">.</span><span style="color:green;">.</span><span style="color:teal;">                                     [100%]</span>
+
+<span style="color:green;"></span><span style="color:green;font-weight:bold;">========================== 15 passed in 0.06 seconds ===========================</span>
+</tt></pre>
+
+--
+
+## Found a bug: Add a test
+
+```python
+def test_negative():
+    assert not is_perfect_square(1)
+```
+<br/><br/>
+<pre>
+<tt class="hljs">
+<span style="font-weight:bold;">============================= test session starts ==============================</span>
+platform linux -- Python 3.7.3, pytest-4.6.3, py-1.8.0, pluggy-0.12.0
+collected 16 items
+
+tests/test_square.py <span style="color:green;">.</span><span style="color:green;">.</span><span style="color:green;">.</span><span style="color:green;">.</span><span style="color:green;">.</span><span style="color:green;">.</span><span style="color:green;">.</span><span style="color:green;">.</span><span style="color:green;">.</span><span style="color:green;">.</span><span style="color:green;">.</span><span style="color:green;">.</span><span style="color:green;">.</span><span style="color:green;">.</span><span style="color:green;">.</span><span style="color:red;">F</span><span style="color:teal;">                                    [100%]</span>
+
+=================================== FAILURES ===================================
+<span style="color:red;"></span><span style="color:red;font-weight:bold;">________________________________ test_negative _________________________________</span>
+
+<span style="font-weight:bold;">    def test_negative():</span>
+<span style="font-weight:bold;">&gt;       assert not is_perfect_square(-1)</span>
+
+<span style="font-weight:bold;"></span><span style="color:red;font-weight:bold;">tests/test_square.py</span>:16: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+n = -1
+
+<span style="font-weight:bold;">    def is_perfect_square(n):</span>
+<span style="font-weight:bold;">        &quot;&quot;&quot;Given an integer, return whether or not it is a perfect square</span>
+<span style="font-weight:bold;">    </span>
+<span style="font-weight:bold;">        Specifically, this means that there is a real integer such that i*i == n</span>
+<span style="font-weight:bold;">        &quot;&quot;&quot;</span>
+<span style="font-weight:bold;">    </span>
+<span style="font-weight:bold;">&gt;       s = math.sqrt(n)</span>
+<span style="font-weight:bold;"></span><span style="color:red;font-weight:bold;">E       ValueError: math domain error</span>
+
+<span style="font-weight:bold;"></span><span style="color:red;font-weight:bold;">square_mod.py</span>:9: ValueError
+<span style="color:red;"></span><span style="color:red;font-weight:bold;">===================== 1 failed, 15 passed in 0.08 seconds ======================</span>
+</tt></pre>
+
+--
+
+## xfail: Tests that are *expected* to fail
+
+
+```python
+@pytest.mark.xfail
+def test_negative():
+    assert not is_perfect_square(1)
+```
+
+<br/><br/>
+Failure is expected, so the tests pass:
+
+<pre><tt class="hljs">
+<span style="font-weight:bold;">============================= test session starts ==============================</span>
+platform linux -- Python 3.7.3, pytest-4.6.3, py-1.8.0, pluggy-0.12.0
+collected 16 items
+
+tests/test_square.py <span style="color:green;">.</span><span style="color:green;">.</span><span style="color:green;">.</span><span style="color:green;">.</span><span style="color:green;">.</span><span style="color:green;">.</span><span style="color:green;">.</span><span style="color:green;">.</span><span style="color:green;">.</span><span style="color:green;">.</span><span style="color:green;">.</span><span style="color:green;">.</span><span style="color:green;">.</span><span style="color:green;">.</span><span style="color:green;">.</span><span style="color:olive;">x</span><span style="color:teal;">                                    [100%]</span>
+
+<span style="color:green;"></span><span style="color:green;font-weight:bold;">===================== 15 passed, 1 xfailed in 0.08 seconds =====================</span>
+</tt></pre>
+
+					</script>
+				</section>
+				
+				<section data-markdown data-separator="^\n---\n$" data-separator-vertical="^\n--\n$" data-notes="^Note:">
+					<script type="text/template">
+# Fixing the issue
+
+```python
+def is_perfect_square(n):
+    """Given an integer, return whether or not it is a perfect square
+
+    Specifically, this means that there is a real integer such that i*i == n
+    """
+
+    # Negative numbers are not squares given the definition of the function
+    if n < 0:
+        return False
+
+    s = math.sqrt(n)
+    return s == int(s)
+```
+<br/><br/>
+
+<pre><tt class="hljs">
+<span style="font-weight:bold;">============================= test session starts ==============================</span>
+platform linux -- Python 3.7.3, pytest-4.6.3, py-1.8.0, pluggy-0.12.0
+collected 16 items
+
+tests/test_square_xpass.py <span style="color:green;">.</span><span style="color:green;">.</span><span style="color:green;">.</span><span style="color:green;">.</span><span style="color:green;">.</span><span style="color:green;">.</span><span style="color:green;">.</span><span style="color:green;">.</span><span style="color:green;">.</span><span style="color:green;">.</span><span style="color:green;">.</span><span style="color:green;">.</span><span style="color:green;">.</span><span style="color:green;">.</span><span style="color:green;">.</span><span style="color:olive;">X</span><span style="color:teal;">                              [100%]</span>
+
+<span style="color:green;"></span><span style="color:green;font-weight:bold;">===================== 15 passed, 1 xpassed in 0.06 seconds =====================</span>
+</tt></pre>
+
+--
+
+# Strict xpass: Treating failure to fail as a failure
+<br/>
+```python
+@pytest.mark.xfail(strict=True)
+def test_negative():
+    assert not is_perfect_square(-4)
+```
+<br/>
+
+<pre><tt class="hljs">
+<span style="font-weight:bold;">============================= test session starts ==============================</span>
+platform linux -- Python 3.7.3, pytest-4.6.3, py-1.8.0, pluggy-0.12.0
+collected 16 items
+
+tests/test_square_xpass.py <span style="color:green;">.</span><span style="color:green;">.</span><span style="color:green;">.</span><span style="color:green;">.</span><span style="color:green;">.</span><span style="color:green;">.</span><span style="color:green;">.</span><span style="color:green;">.</span><span style="color:green;">.</span><span style="color:green;">.</span><span style="color:green;">.</span><span style="color:green;">.</span><span style="color:green;">.</span><span style="color:green;">.</span><span style="color:green;">.</span><span style="color:red;">F</span><span style="color:teal;">                              [100%]</span>
+
+=================================== FAILURES ===================================
+<span style="color:red;"></span><span style="color:red;font-weight:bold;">________________________________ test_negative _________________________________</span>
+[XPASS(strict)] 
+<span style="color:red;"></span><span style="color:red;font-weight:bold;">===================== 1 failed, 15 passed in 0.04 seconds ======================</span>
+</tt></pre>
+<br/><br/>
+Set globally in `setup.cfg`:<br/><br/>
+
+```ini
+[tool:pytest]
+xfail_strict = true
+```
+
+					</script>
+				</section>
+				
+				<section data-markdown data-separator="^\n---\n$" data-separator-vertical="^\n--\n$" data-notes="^Note:">
+					<script type="text/template">
+# What about `pytest.mark.skip`?
+
+- `xfail` runs the test and checks if it fails
+- `skip` doesn't run the test
+<br/>
+<br/>
+Use `skip` when the test only makes sense in some conditions:
+
+```python
+@pytest.mark.skip(not sys.platform.startswith("win"),
+                  reason="Windows-specific tests")
+def test_windows_stuff():
+    from ctypes import wintypes
+
+    ... # Do a bunch of Windows-specific stuff
+```
+
+					</script>
+				</section>
+				
+				<section data-markdown data-separator="^\n---\n$" data-separator-vertical="^\n--\n$" data-notes="^Note:">
+					<script type="text/template">
+# Why should I care?
+<br/>
+
+<div>
+<h2>Document your acceptance criteria</h2>
+
+Adding a failing test to the test suite documents the conditions necessary to fix the bug.
+</div>
+<br/>
+<div class="fragment">
+<h2>Test your tests!</h2>
+Start by writing the xfailing test, if it doesn't fail, your test won't catch the regression.
+</div>
+<br/>
+<div class="fragment">
+<h2>Impose regression tests early!</h2>
+
+Your test suite will fail if you accidentally fix a bug - remove the `xfail` and you'll prevent regressions from the moment you merged!
+</div>
+
+					</script>
+				</section>
+				
+
+			</div>
+
+<div class="sbcontainer">
+    <img src="images/pganssle-logos-rotated.svg"
+         style="width: 1.1em;"
+         class="sbitem" />
+    <img src="images/ganssleio_rotated.svg"
+         style="width: 1.1em;"
+         class="sbitem" />
+    <img src="external-images/logos/zero-black.svg"
+         style="width: 1.8em;
+                margin-bottom: 0.5em;"
+        class="sbitem">
+</div>
+
+
+		</div>
+
+		<script src="reveal.js/lib/js/head.min.js"></script>
+		<script src="reveal.js/js/reveal.js"></script>
+
+
+		<script>
+
+			// Full list of configuration options available here:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+				transition: 'linear', // default/cube/page/concave/zoom/linear/fade/none
+
+				
+					
+						// Reveal options generated from mapping
+						
+							width: "95%",
+						
+							height: "95%",
+						
+					
+				
+
+				// Optional libraries used to extend on reveal.js
+				dependencies: [
+					{ src: 'reveal.js/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'reveal.js/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'reveal.js/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'reveal.js/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+					
+					{ src: 'reveal.js/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+					
+					
+				]
+			});
+
+		</script>
+
+	</body>
+</html>
