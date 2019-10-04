@@ -2,7 +2,7 @@
 
 ```python
 def is_perfect_square(n):
-    """Given an integer, return whether or not it is a perfect square
+    """Given an integer, return whether or not it is a perfect square.
 
     Specifically, this means that there is a real integer such that i*i == n
     """
