@@ -45,7 +45,7 @@ collected 16 items
 tests/test_square_xpass.py <span style="color:green;">.</span><span style="color:green;">.</span><span style="color:green;">.</span><span style="color:green;">.</span><span style="color:green;">.</span><span style="color:green;">.</span><span style="color:green;">.</span><span style="color:green;">.</span><span style="color:green;">.</span><span style="color:green;">.</span><span style="color:green;">.</span><span style="color:green;">.</span><span style="color:green;">.</span><span style="color:green;">.</span><span style="color:green;">.</span><span style="color:red;">F</span><span style="color:teal;">                              [100%]</span>
 
 =================================== FAILURES ===================================
-<span style="color:red;"></span><span style="color:red;font-weight:bold;">________________________________ test_negative _________________________________</span>
+<span style="color:red;"></span><span style="color:red;font-weight:bold;">________________________________ test\_negative _________________________________</span>
 [XPASS(strict)] 
 <span style="color:red;"></span><span style="color:red;font-weight:bold;">===================== 1 failed, 15 passed in 0.04 seconds ======================</span>
 </tt></pre>
