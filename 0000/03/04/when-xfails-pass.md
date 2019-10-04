@@ -2,7 +2,7 @@
 
 ```python
 def is_perfect_square(n):
-    """Given an integer, return whether or not it is a perfect square
+    """Given an integer, return whether or not it is a perfect square.
 
     Specifically, this means that there is a real integer such that i*i == n
     """
@@ -28,7 +28,7 @@ tests/test_square_xpass.py <span style="color:green;">.</span><span style="color
 
 --
 
-# Strict xpass: Treating failure to fail as a failure
+# Treating failure to fail as a failure
 <br/>
 ```python
 @pytest.mark.xfail(strict=True)
@@ -45,7 +45,7 @@ collected 16 items
 tests/test_square_xpass.py <span style="color:green;">.</span><span style="color:green;">.</span><span style="color:green;">.</span><span style="color:green;">.</span><span style="color:green;">.</span><span style="color:green;">.</span><span style="color:green;">.</span><span style="color:green;">.</span><span style="color:green;">.</span><span style="color:green;">.</span><span style="color:green;">.</span><span style="color:green;">.</span><span style="color:green;">.</span><span style="color:green;">.</span><span style="color:green;">.</span><span style="color:red;">F</span><span style="color:teal;">                              [100%]</span>
 
 =================================== FAILURES ===================================
-<span style="color:red;"></span><span style="color:red;font-weight:bold;">________________________________ test_negative _________________________________</span>
+<span style="color:red;"></span><span style="color:red;font-weight:bold;">________________________________ test\_negative _________________________________</span>
 [XPASS(strict)] 
 <span style="color:red;"></span><span style="color:red;font-weight:bold;">===================== 1 failed, 15 passed in 0.04 seconds ======================</span>
 </tt></pre>

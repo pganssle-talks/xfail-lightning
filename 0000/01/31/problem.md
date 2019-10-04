@@ -2,7 +2,7 @@
 import math
 
 def is_perfect_square(n):
-    """Given an integer, return whether or not it is a perfect square
+    """Given an integer, return whether or not it is a perfect square.
 
     Specifically, this means that there is a real integer such that i*i == n
     """
@@ -18,7 +18,7 @@ import pytest
 
 from square_mod import is_perfect_square
 
-@pytest.mark.parametrize("n", [0, 1, 2, 4, 9, 16, 25, 36] )
+@pytest.mark.parametrize("n", [0, 1, 2, 4, 9, 16, 25, 36])
 def test_squares(n):
     assert is_perfect_square(n)
 
@@ -40,13 +40,17 @@ tests/test_square.py <span style="color:green;">.</span><span style="color:green
 <span style="color:green;"></span><span style="color:green;font-weight:bold;">========================== 15 passed in 0.06 seconds ===========================</span>
 </tt></pre>
 
+Notes:
+
+So let's imagine that I have this function that determines if a given integer is a perfect square, and some tests for that function, and we'll add some tests for it that show that yes indeed that's what this function does - it gives True for all these perfect squares and False for all these non-square numbers. Perfect work for a Thursday afternoon, let's go ahead and ship it straight to production, no problem!
+
 --
 
 ## Found a bug: Add a test
 
 ```python
 def test_negative():
-    assert not is_perfect_square(1)
+    assert not is_perfect_square(-4)
 ```
 <br/><br/>
 <pre>
@@ -80,6 +84,10 @@ n = -4
 <span style="font-weight:bold;"></span><span style="color:red;font-weight:bold;">square_mod.py</span>:9: ValueError
 <span style="color:red;"></span><span style="color:red;font-weight:bold;">===================== 1 failed, 15 passed in 0.08 seconds ======================</span>
 </tt></pre>
+
+Notes:
+
+But say the next day I get back from lunch and I think, "Oh hey, wait a second, I missed a test case, what if I had actually 
 
 --
 
